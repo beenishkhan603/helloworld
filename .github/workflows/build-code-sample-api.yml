@@ -1,0 +1,39 @@
+name: Build and publish code helo world to npm
+
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+      # Step 1: Checkout the repository
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Step 2: Set up Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20.16.0
+          cache: 'npm'
+
+      # Step 3: Install dependencies
+      - name: Install dependencies
+        run: npm install
+
+      # Step 5: configure to npm
+      - name: Configure NPM registry
+        run: npm config set registry 'https://registry.npmjs.org/'
+
+      # Step 6: auth to npm
+      - name: Authenticate with NPM
+        run: |
+          echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+      # Step 7: Publish to npm
+      - name: Publish to npm
+        run: |
+          npm publish --access public
