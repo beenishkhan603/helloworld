@@ -25,6 +25,7 @@ jobs:
       # Step 1: Checkout the repository
       - name: Checkout repository
         uses: actions/checkout@v3
+        with: persist-credentails:true
 
       # Step 2: Set up Node.js
       - name: Set up Node.js
@@ -47,6 +48,7 @@ jobs:
 
       # Step 7: Publish to npm
       - name: Bump version and Publish to npm
+        id: release
         run: |
           npm version ${{ github.event.inputs.version_type }}
           npm publish --access public
