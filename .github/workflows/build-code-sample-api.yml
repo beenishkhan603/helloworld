@@ -19,7 +19,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 20.16.0
-          cache: 'npm'
 
       # Step 3: Install dependencies
       - name: Install dependencies
